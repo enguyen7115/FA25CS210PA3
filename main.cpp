@@ -122,14 +122,10 @@ bool dfs(int r, int c, const vector<vector<int>>& maze, vector<vector<bool>>& vi
          vector<vector<int>>& parent_r,
          vector<vector<int>>& parent_c,
          int exit_r, int exit_c) {
-
-    if (r < 0 || r >= maze.size() || c < 0 || c >= maze[0].size())
-        return false;
-
-    visited[r][c] = true;
-
     if (r == exit_r && c == exit_c)
         return true;
+
+    visited[r][c] = true;
 
     stack<vector<int>> neighbors;
 
@@ -142,7 +138,22 @@ bool dfs(int r, int c, const vector<vector<int>>& maze, vector<vector<bool>>& vi
 
     while(!neighbors.empty())
     {
+        vector<int> current = neighbors.top();
+        neighbors.pop();
 
+        int nr = current[0];
+        int nc = current[1];
+
+        if(nr < 0 || nr >= maze.size() || nc < 0 || nc >= maze[0].size())
+            continue;
+        if(maze[nr][nc] == 1 || visited[nr][nc])
+            continue;
+
+        parent_r[nr][nc] = r;
+        parent_c[nr][nc] = c;
+
+        // For some reason this isn't working?
+        dfs(nr, nc, maze, visited, parent_r, parent_c, exit_r, exit_c);
     }
     
     return false;
