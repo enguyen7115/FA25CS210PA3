@@ -152,8 +152,9 @@ bool dfs(int r, int c, const vector<vector<int>>& maze, vector<vector<bool>>& vi
         parent_r[nr][nc] = r;
         parent_c[nr][nc] = c;
 
-        // For some reason this isn't working?
-        dfs(nr, nc, maze, visited, parent_r, parent_c, exit_r, exit_c);
+        //This... is dumb.
+        if(dfs(nr, nc, maze, visited, parent_r, parent_c, exit_r, exit_c))
+            return true;
     }
     
     return false;
